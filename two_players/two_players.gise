@@ -24,7 +24,6 @@
   <files xmlns="http://www.xilinx.com/XMLSchema">
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="boxe_top_an_guide.ncd" xil_pn:origination="imported"/>
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="boxe_top_guide.ncd" xil_pn:origination="imported"/>
-    <file xil_pn:fileType="FILE_NCD" xil_pn:name="pong_top_an_guide.ncd" xil_pn:origination="imported"/>
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema"/>

@@ -29,7 +29,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity boxe_top is
    port (
       clock,reset: in std_logic;
-      btn: in std_logic_vector (1 downto 0);
+    --  btn: in std_logic_vector (1 downto 0);
       hsync, vsync: out  std_logic;
       outred: out std_logic_vector(2 downto 0);
 	  outgreen: out std_logic_vector(2 downto 0);
@@ -43,6 +43,7 @@ architecture arch of boxe_top is
    signal video_on, pixel_tick, clk: std_logic;
    signal rgb_reg, rgb_next: std_logic_vector(2 downto 0);
 	signal key_code: std_logic_vector(3 downto 0);
+	signal timer_tick, timer_start, timer_up: std_logic;
 begin
 
   -- instantiate clock manager unit
@@ -61,17 +62,30 @@ begin
                hsync=>hsync, vsync=>vsync,
                pixel_x=>pixel_x, pixel_y=>pixel_y);
    -- instantiate graphic generator
-   boxe_graph_unit: entity work.boxe_graph
+   boxe_graph_unit: entity work.pong_graph
       port map (clk=>clk, reset=>reset,
                 key_code=>key_code, video_on=>video_on,
                 pixel_x=>pixel_x, pixel_y=>pixel_y,
-                graph_rgb=>rgb_next);
+                graph_rgb=>rgb_next,
+					 time_start=>timer_start,
+                timer_up=>timer_up);					 
 					 
 	-- instantiate KB_code				 
 		   kb_code_unit: entity work.kb_code
       port map (clk=>clk, reset=>reset,
                 ps2d=>ps2d, ps2c=>ps2c,
                 key_code=>key_code);
+					 
+	-- instantiate 2 sec timer
+   timer_tick <=  -- 60 Hz tick
+      '1' when pixel_x="0000000000" and
+               pixel_y="0000000000" else
+      '0';
+   timer_unit: entity work.timer
+      port map(clk=>clk, reset=>reset,
+               timer_tick=>timer_tick,
+               timer_start=>timer_start,
+               timer_up=>timer_up);
 		
    -- rgb buffer
    process (clk)

@@ -7,7 +7,7 @@
 --	ficam a zero.
 -- Vamos precisar de 12 teclas:
 -- jogador A   letras a,d,w,s,v e b
--- jogadore B  up,down,left,right,0 e .
+-- jogador B  up,down,left,right,0 e .
 -- podemos usar outras teclas para restart e ou alterar dificuldade
 --=================================================================
 
@@ -63,6 +63,8 @@ begin
       state_next <= state_reg;
       case state_reg is
          when wait_brk => -- wait for F0 of break code
+			--testes
+				key_code<=(others=>'0');
             if scan_done_tick='1' and scan_out=BRK then
                state_next <= get_code;
             end if;
@@ -76,24 +78,27 @@ begin
 						key_code<="0011";
 					elsif scan_out="00011011" then --s
 						key_code<="0100";
-					elsif scan_out="00101010" then --v
+					elsif scan_out="00101010" then --v left punch player1
 						key_code<="0101";
-					elsif scan_out="00110010" then --b
+					elsif scan_out="00110001" then --n right punch player1
 						key_code<="0110";
 					elsif scan_out="01110101" then --up
 						key_code<="0111";
 					elsif scan_out="01110010" then --down
 						key_code<="1000";					
-					elsif scan_out="01110100" then --right
+					elsif scan_out="01110100" then --right 
 						key_code<="1001";
 					elsif scan_out="01101011" then --left
 						key_code<="1010";
-					elsif scan_out="01110000" then --0
+					elsif scan_out="01101001" then --1  left punch player2
 						key_code<="1011";
-					elsif scan_out="01110001" then --.
+					elsif scan_out="01111010" then --3   right punch player2
 						key_code<="1100";
-					else
-						key_code<="0000";
+					elsif scan_out="00110010" then -- b defesa player1 
+						key_code<="1101";
+					elsif scan_out="01110011" then -- 5 defesa player2
+						key_code<="1110";
+
 					end if;
                state_next <= wait_brk;
             end if;
