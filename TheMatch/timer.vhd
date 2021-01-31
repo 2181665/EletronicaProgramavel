@@ -15,8 +15,8 @@ entity timer is
 end timer;
 
 architecture arch of timer is
-   --signal timer_reg, timer_next: unsigned(7 downto 0);
-	signal timer_reg, timer_next: unsigned(10 downto 0);
+   signal timer_reg, timer_next: unsigned(7 downto 0); -- controlo de tempo de winner
+	--signal timer_reg, timer_next: unsigned(10 downto 0);
 begin
    -- registers
    process (clk, reset)
